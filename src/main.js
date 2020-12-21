@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import Root from './App.vue'
 
-createApp(App).mount('#app')
+const app = createApp(Root)
+app.mount('#app')
