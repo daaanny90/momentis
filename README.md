@@ -1,4 +1,7 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/39ad7e23-c885-462f-bc16-63b4c4c76688/deploy-status)](https://app.netlify.com/sites/momentis/deploys)
+[![Website https://momentis.netlify.app](https://img.shields.io/website-up-down-green-red/https/momentis.netlify.app.svg)](https://momentis.netlify.app/)
 # Momentis
+
 For educational purposes, I made a clone of the famous productivity home page "momentum".
 The original one is actually a chrome extension that changes the new tab into a clean homepage with some information of the day.
 
