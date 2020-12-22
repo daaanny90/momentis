@@ -1,12 +1,12 @@
 <template>
-  <h1 class="time">{{time}}</h1>
+  <h1 class="time">{{ time }}</h1>
 </template>
 
 <script>
 export default {
   name: 'Hour',
   data() {
-    return{
+    return {
       time: 'Loading...'
     }
   },
@@ -14,8 +14,11 @@ export default {
     getCurrentTime() {
       let now = new Date()
       let that = this
-      this.time = now.getHours() + ':' + now.getMinutes()
+      this.time = this.addZero(now.getHours()) + ':' + this.addZero(now.getMinutes())
       setTimeout(that.getCurrentTime, 1000)
+    },
+    addZero(time) {
+      return (time < 10) ? '0' + time : time;
     }
   },
   mounted() {
@@ -25,11 +28,11 @@ export default {
 </script>
 
 <style type="scss">
-  .time {
-    color: white;
-    font-size: 1050%;
-    letter-spacing: -5px;
-    margin: 0;
-    margin-bottom: -.2em;
-  }
+.time {
+  color: white;
+  font-size: 1050%;
+  letter-spacing: -5px;
+  margin: 0;
+  margin-bottom: -.2em;
+}
 </style>
