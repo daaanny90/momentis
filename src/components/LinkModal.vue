@@ -53,9 +53,6 @@ export default {
         this.addLinkToList(this.linkJson.name, this.linkJson.url)
       }
     }
-  },
-  mounted() {
-    this.initializeLinkData()
   }
 }
 </script>
