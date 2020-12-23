@@ -6,7 +6,7 @@
     <MainFocus />
   </div>
   <Footer />
-  <NewLinkModal />
+  <LinkModal />
 </template>
 
 <script>
@@ -19,12 +19,12 @@ import { getCookie } from "@/plugins/getCookie";
 import { cookieExpirationDate } from "@/plugins/cookieExpirationDate";
 import { isCookieHere } from "@/plugins/isCookieHere";
 import Footer from "@/components/Footer/Footer";
-import NewLinkModal from "@/components/NewLinkModal";
+import LinkModal from "@/components/LinkModal";
 
 export default {
   name: 'App',
   components: {
-    NewLinkModal,
+    LinkModal,
     Header,
     Hour,
     Greetings,

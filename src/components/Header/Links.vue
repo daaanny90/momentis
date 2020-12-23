@@ -4,7 +4,7 @@
     <ol class="tooltip-links__list">
     </ol>
     <div class="tooltip-links__footer">
-      <button type="button" class="btn add-new-link" data-toggle="modal" data-target="#newLinkModal">
+      <button type="button" class="btn add-new-link" data-toggle="modal" data-target="#linkModal">
         + New Link
       </button>
     </div>
@@ -12,6 +12,9 @@
 </template>
 
 <script>
+import {isCookieHere} from "@/plugins/isCookieHere";
+import {getCookie} from "@/plugins/getCookie";
+
 export default {
   name: 'Links',
   methods: {
@@ -25,8 +28,27 @@ export default {
         tooltip.classList.remove('show')
       }
     },
+    addLinkToList(name, url) {
+      let list = document.querySelector('.tooltip-links__list')
+      let li = document.createElement("li")
+      let linkElement = document.createElement("a")
+      linkElement.appendChild(document.createTextNode(name));
+      linkElement.title = name
+      linkElement.href = url
+      li.appendChild(linkElement)
+      list.appendChild(li)
+    },
+    initializeLinkData() {
+      if(isCookieHere('links')) {
+        let linkList = JSON.parse(getCookie('links'))
+        for(let link of linkList) {
+          this.addLinkToList(link.name, link.url)
+        }
+      }
+    }
   },
   mounted() {
+    this.initializeLinkData()
   }
 }
 </script>

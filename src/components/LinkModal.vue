@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" id="newLinkModal" tabindex="-1" role="dialog" aria-labelledby="newLinkModal" aria-hidden="true">
+  <div class="modal fade" id="linkModal" tabindex="-1" role="dialog" aria-labelledby="linkModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -29,7 +29,7 @@ import {cookieExpirationDate} from '@/plugins/cookieExpirationDate'
 import {getCookie} from "@/plugins/getCookie";
 
 export default {
-  name: 'NewLinkModal',
+  name: 'LinkModal',
   data() {
     return {
       linkJson: {
@@ -51,24 +51,6 @@ export default {
         linkList.push(this.linkJson)
         document.cookie = 'links=' + JSON.stringify(linkList) + ';expires=' + cookieExpirationDate(50)
         this.addLinkToList(this.linkJson.name, this.linkJson.url)
-      }
-    },
-    addLinkToList(name, url) {
-      let list = document.querySelector('.tooltip-links__list')
-      let li = document.createElement("li")
-      let linkElement = document.createElement("a")
-      linkElement.appendChild(document.createTextNode(name));
-      linkElement.title = name
-      linkElement.href = url
-      li.appendChild(linkElement)
-      list.appendChild(li)
-    },
-    initializeLinkData() {
-      if(isCookieHere('links')) {
-        let linkList = JSON.parse(getCookie('links'))
-        for(let link of linkList) {
-          this.addNewLink(link.name, link.url)
-        }
       }
     }
   },
