@@ -1,22 +1,66 @@
 <template>
-  <h3 class="links" @click="toggleTooltip()">Links</h3>
-  <div class="tooltip-links hide">
-    <ol class="tooltip-links__list">
-    </ol>
-    <div class="tooltip-links__footer">
-      <button type="button" class="btn add-new-link" data-toggle="modal" data-target="#linkModal">
-        + New Link
-      </button>
+  <div>
+    <h3 class="links" @click="toggleTooltip()">Links</h3>
+    <div class="tooltip-links hide">
+      <ul class="tooltip-links__list">
+        <li class="link-item d-flex justify-content-between align-items-center" v-for="link in links" :key="link.id">
+          <a :href=link.url>{{ link.name }}</a>
+          <b-icon class="ml-3 edit-link"
+                  icon="three-dots"
+                  @click="linkName = link.name; linkUrl = link.url; linkID = link.id"
+                  v-bind:id="'popover-target-' + link.id"
+          >
+          </b-icon>
+          <LinkPopover :link-data="link"
+                       v-on:link-to-edit="linkToEdit($event)"
+                       v-on:link-deleted="updateLinkList($event)"
+          />
+        </li>
+      </ul>
+      <div class="tooltip-links__footer">
+        <b-button class="btn add-new-link"
+                  variant="light"
+                  v-b-modal.modal-link
+                  block
+                  @click="clearData"
+        >
+          + New Link
+        </b-button>
+      </div>
     </div>
+    <LinkModal v-on:link-added="linkAdded($event)"
+               v-on:link-modified="updateLinkList($event)"
+               :modal-text="modalText"
+               :link-name="linkName"
+               :link-url="linkUrl"
+               :link-id="linkID"
+               :modify-link="modifyLink"
+    />
   </div>
 </template>
 
 <script>
 import {isCookieHere} from "@/plugins/isCookieHere";
 import {getCookie} from "@/plugins/getCookie";
+import LinkModal from "@/components/LinkModal";
+import LinkPopover from "@/components/Header/LinkPopover";
 
 export default {
   name: 'Links',
+  components: {
+    LinkPopover,
+    LinkModal
+  },
+  data() {
+    return {
+      links: [],
+      modalText: '',
+      linkName: '',
+      linkUrl: '',
+      linkID: 0,
+      modifyLink: false
+    };
+  },
   methods: {
     toggleTooltip() {
       let tooltip = document.querySelector('.tooltip-links');
@@ -28,23 +72,27 @@ export default {
         tooltip.classList.remove('show')
       }
     },
-    addLinkToList(name, url) {
-      let list = document.querySelector('.tooltip-links__list')
-      let li = document.createElement("li")
-      let linkElement = document.createElement("a")
-      linkElement.appendChild(document.createTextNode(name));
-      linkElement.title = name
-      linkElement.href = url
-      li.appendChild(linkElement)
-      list.appendChild(li)
-    },
     initializeLinkData() {
-      if(isCookieHere('links')) {
-        let linkList = JSON.parse(getCookie('links'))
-        for(let link of linkList) {
-          this.addLinkToList(link.name, link.url)
-        }
+      if (isCookieHere('links')) {
+        this.links = JSON.parse(getCookie('links'))
       }
+    },
+    linkToEdit(data) {
+      this.modalText = data.modalText
+      this.modifyLink = true
+    },
+    linkAdded(data) {
+      this.links.push({...data})
+    },
+    updateLinkList(data) {
+      this.links = data
+    },
+    clearData() {
+      this.modifyLink = false
+      this.linkName = ''
+      this.linkID = 0
+      this.linkUrl = ''
+      this.modalText = 'Add Link'
     }
   },
   mounted() {
@@ -68,6 +116,21 @@ export default {
   color: #222;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.tooltip-links__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.tooltip-links__list .link-item {
+  margin-bottom: .5em;
+}
+
+.tooltip-links__list .link-item .edit-link {
+  cursor: pointer;
 }
 
 .input-form {
