@@ -1,12 +1,13 @@
 <template>
-  <Header/>
-  <div class="greetings">
-    <Hour/>
-    <Greetings name="Danny"/>
-    <MainFocus />
+  <div id="app">
+    <Header/>
+    <div class="greetings">
+      <Hour/>
+      <Greetings name="Danny"/>
+      <MainFocus/>
+    </div>
+    <Footer/>
   </div>
-  <Footer />
-  <NewLinkModal />
 </template>
 
 <script>
@@ -15,16 +16,14 @@ import Greetings from "@/components/Greetings";
 import Header from "@/components/Header/Header";
 import axios from 'axios';
 import MainFocus from "@/components/MainFocus";
-import { getCookie } from "@/plugins/getCookie";
-import { cookieExpirationDate } from "@/plugins/cookieExpirationDate";
-import { isCookieHere } from "@/plugins/isCookieHere";
+import {getCookie} from "@/plugins/getCookie";
+import {cookieExpirationDate} from "@/plugins/cookieExpirationDate";
+import {isCookieHere} from "@/plugins/isCookieHere";
 import Footer from "@/components/Footer/Footer";
-import NewLinkModal from "@/components/NewLinkModal";
 
 export default {
   name: 'App',
   components: {
-    NewLinkModal,
     Header,
     Hour,
     Greetings,
@@ -41,29 +40,29 @@ export default {
       let app = document.querySelector('#app')
       app.style.backgroundImage = 'url(' + url + ')';
     },
-    async setBackground(name, url){
+    async setBackground(name, url) {
       let that = this;
       if (!isCookieHere('backgroundUrl')) {
         await axios
-          .get(url)
-          .then(function(response) {
-            let imageUrl = response.request.responseURL
-            document.cookie = name + "=" + imageUrl + "; expires=" + cookieExpirationDate();
-            that.changeBackground(imageUrl)
-          })
+            .get(url)
+            .then(function (response) {
+              let imageUrl = response.request.responseURL
+              document.cookie = name + "=" + imageUrl + "; expires=" + cookieExpirationDate();
+              that.changeBackground(imageUrl)
+            })
       } else {
         let savedBackground = getCookie('backgroundUrl')
         this.changeBackground(savedBackground)
       }
     },
   },
-  beforeMount() {
+  mounted() {
     this.setBackground('backgroundUrl', 'https://source.unsplash.com/featured/2400x1600/?wallpaper')
-  }
+  },
 }
 </script>
 
-<style type="scss">
+<style>
 html, body {
   padding: 0;
   margin: 0;

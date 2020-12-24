@@ -8,7 +8,7 @@ The original one is actually a chrome extension that changes the new tab into a 
 
 I decided to build just the page, and to clone some functionality.
 
-If you want to test it, you can recreate the same behaviour like momentum using [this link](https://momenits.netlify.app) as homepage.
+If you want to try it, you can recreate the same behaviour like momentum using [this link](https://momenits.netlify.app) as homepage and this [Chrome extension](https://chrome.google.com/webstore/detail/new-tab-redirect/icpgjfneehieebagbmdbhnlpiopdcmna/related) to set the redirect to the page every time you open a new tab.
 
 ## Project setup
 ```
